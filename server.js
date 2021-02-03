@@ -1,15 +1,9 @@
 require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
 const { connect } = require('./src/db')
-const { GraphQLServer } = require('graphql-yoga')
-//const { graphqlHTTP } = require('express-graphql')
-const Query = require('./src/resolvers/Query')
-const Mutation = require('./src/resolvers/Mutation')
-
-//const app = express()
-//app.set('port', (process.env.PORT || 8000))
-//
+const { ApolloServer } = require('apollo-server')
+const { typeDefs } = require('./src/graphql/schema')
+const Query = require('./src/graphql/resolvers/Query')
+const Mutation = require('./src/graphql/resolvers/Mutation')
 
 const port = process.env.PORT || 8000
 connect()
@@ -19,24 +13,13 @@ const resolvers = {
   Mutation
 }
 
-const appE = express()
-
-const app = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
+const server = new ApolloServer({
+  typeDefs,
   resolvers
 })
 
-//appE.use('/graphql', graphqlHTTP({
-  //graphiql: true
-//}))
+server
+  .listen({ port }, () => {
+    console.log(`Server running on http://localhost:${port}`)
+  })
 
-//app.use(express.json())
-//app.use(cors)
-
-app.start({ port }, (deeds) => {
-  console.log(`Server running on http://localhost:${deeds.port}`)
-})
-
-//app.listen(app.get('port'), () => {
-  //console.log(`app running at http://localhost:${app.set('port')}`)
-//})
