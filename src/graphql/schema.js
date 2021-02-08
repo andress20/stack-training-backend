@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Query {
     users: [User!]!
     user(_id: ID): User
+    signIn(input: UserInputSignIn): User
   }
 
   type Mutation {
@@ -21,11 +22,17 @@ const typeDefs = gql`
   input UserInput {
     name: String!
     email: String!
+    password: String!
   }
 
   input UserInputUpdate {
     name: String
     email: String
+  }
+
+  input UserInputSignIn {
+    email: String!
+    password: String!
   }
 `
 module.exports = { typeDefs }
