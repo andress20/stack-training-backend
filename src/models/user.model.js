@@ -28,6 +28,9 @@ const userSchema = new Schema ({
   projects: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Project'}]
   },
+  more: {
+    type: {}
+  },
 },{
   timestamps: true
 })
